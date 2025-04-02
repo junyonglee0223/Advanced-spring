@@ -45,4 +45,59 @@ public class ContextV1Test {
         ContextV1 context2 = new ContextV1(strategy2);
         context2.execute();
     }
+
+    @Test
+    void strategyV2(){
+        Strategy strategy1 = new Strategy() {
+            @Override
+            public void call() {
+                log.info("business logic 1 processing!!");
+            }
+        };
+        ContextV1 context1 = new ContextV1(strategy1);
+
+        Strategy strategy2 = new Strategy() {
+            @Override
+            public void call() {
+                log.info("business logic 2 processing!!");
+            }
+        };
+        ContextV1 context2 = new ContextV1(strategy2);
+
+        log.info("strategyLogic1 = {}", strategy1.getClass());
+        context1.execute();
+        log.info("strategyLogic2 = {}", strategy2.getClass());
+        context2.execute();
+    }
+
+    @Test
+    void strategyV3(){
+        ContextV1 context1 = new ContextV1(new Strategy() {
+            @Override
+            public void call() {
+                log.info("business logic 1 processing!!");
+            }
+        });
+        ContextV1 context2 = new ContextV1(new Strategy() {
+            @Override
+            public void call() {
+                log.info("business logic 2 processing!!");
+            }
+        });
+
+        log.info("context1 = {}", context1.getClass());
+        context1.execute();
+
+        log.info("context2 = {}", context2.getClass());
+        context2.execute();
+    }
+
+    @Test
+    void strategyV4(){
+        ContextV1 context1 = new ContextV1(() -> log.info("business logic 1 processing!!"));
+        ContextV1 context2 = new ContextV1(() -> log.info("business logic 2 processing!!"));
+
+        context1.execute();
+        context2.execute();
+    }
 }
